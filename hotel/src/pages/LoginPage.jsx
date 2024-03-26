@@ -31,10 +31,10 @@ export default function LoginPage(){
 
 
     return  (
-        <div className="mt-[20%] max-w-[65%] mx-auto my-auto text-gray-500">
+        <div className=" text-gray-500 flex flex-col text-center w-[30rem] mx-auto my-[5rem]">
             <h1 className="text-3xl font-bold">Login</h1>
             <br />
-            <form className="flex flex-col max-w-[65%] mx-auto my-auto" onSubmit={loginUser}>
+            <form className="flex flex-col " onSubmit={loginUser}>
                 <label htmlFor="email">Email</label>
                 <input className="border border-gray-400 rounded-lg p-1" type="email" id="email" name="email" 
                     value={email} onChange={ev=>setEmail(ev.target.value)}

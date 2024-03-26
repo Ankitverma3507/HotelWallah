@@ -18,10 +18,10 @@ export default function RegisterPage(){
        
         }
     return  (
-        <div className="mt-[20%] max-w-[65%] mx-auto my-auto text-gray-500">
+        <div className="flex flex-col text-center w-[30rem] mx-auto my-[5rem] text-gray-500">
             <h1 className="text-3xl font-bold">Register</h1>
             <br />
-            <form className="flex flex-col max-w-[65%] mx-auto my-auto " onSubmit={registeruser}>
+            <form className="flex flex-col" onSubmit={registeruser}>
             <label htmlFor="text">Name</label>
                 <input className="border border-gray-400 rounded-lg p-1" type="text" id="text" name="text" value={name} onChange={ev=>setName(ev.target.value)}/>
             <br />
