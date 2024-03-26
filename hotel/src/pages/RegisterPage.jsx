@@ -33,7 +33,7 @@ export default function RegisterPage(){
                 <input className="border border-gray-400 rounded-lg p-1" type="password" id="password" name="password" value={password} onChange={ev=> setPassword(ev.target.value)} />
             <br />
 
-                <button className="border bg-black text-white rounded-full mt-2 py-1" type="submit">Register</button>
+                <button className="border bg-black text-white py-2 px-3 rounded-2xl" type="submit">Register</button>
 
                 <div className='text-center'>
                     Already a member? <Link className='underline text-black' to={'/login'}>Login</Link>
