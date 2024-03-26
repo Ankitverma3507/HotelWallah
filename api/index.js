@@ -88,4 +88,9 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
+app.post('/logout', (req,res)=>{
+    res.clearCookie('token','').json(true);
+})
+
 app.listen(4000);
