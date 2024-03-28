@@ -7,6 +7,8 @@ const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const imageDownloader = require('image-downloader');
 const multer = require('multer');
+const fs = require('fs');
+const Place = require('./models/place.js');
 require('dotenv').config()
 const app= express();
 
@@ -107,8 +109,42 @@ app.post('/upload-by-link' , async (req,res)=>{
 })
 
 
-const photosMiddleware= multer({dest:'uploads'});
+const photosMiddleware= multer({dest:'uploads/'});
 app.post('/upload',photosMiddleware.array('photos', 100) ,(req,res)=>{
-    res.json(req.files)
+    const uploadedFiles= [];
+    for(let i=0; i<req.files.length; i++){
+        const {path,originalname}= req.files[i];
+        const parts= originalname.split('.');
+        const ext= parts[parts.length-1];
+        const newPath= path  + '.' + ext;
+        // const actual= newPath.replace('uploads\\', 'uploads/');
+        fs.renameSync(path, newPath);
+        // console.log(path, typeof path);
+        // console.log(newPath, typeof newPath);
+        const repl= newPath.replace('uploads\\','');
+        // console.log(repl);
+        uploadedFiles.push(repl);
+        
+    }
+    
+    res.json(uploadedFiles);
 })
-app.listen(4000);
+
+app.post('/places', async (req,res)=>{
+    const {token} = req.cookies;
+    const {
+        title,address,addedPhotos,description,price,
+        perks,extraInfo,checkIn,checkOut,maxGuests,
+    } = req.body;
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+        if (err) throw err;
+        const placeDoc = await Place.create({
+            owner:userData.id,price,
+            title,address,photos:addedPhotos,description,
+            perks,extraInfo,checkIn,checkOut,maxGuests,
+        });
+        res.json(placeDoc);
+    });
+});
+
+app.listen(4000); 
