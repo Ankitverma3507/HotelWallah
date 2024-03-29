@@ -11,6 +11,15 @@ textarea{
 textarea{
     height: 140px;
 }
-button{
-    @apply bg-gray-300;
-}
+/* Define custom classes within a layer */
+@layer base {
+    .bg-primary {
+      background-color: #8f8f8f;
+    }
+  }
+  
+  /* Use the custom class with @apply */
+  button.primary {
+    @apply bg-primary p-2 w-full text-white rounded-2xl;
+  }
+  

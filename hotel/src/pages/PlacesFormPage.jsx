@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Perks from '../Perks';
 import PhotosUploader from '../Photo';
 import axios from 'axios';
-// import { useState } from 'react';
+import { Navigate,useParams } from 'react-router-dom';
+import { set } from 'mongoose';
 
 
 export default function PlacesFormPage(){
+    const {id}= useParams();
     const [title, setTitle] = useState('');
     const[address, setAddress] = useState('');
     const[addedPhotos, setAddedPhotos] = useState([]);
@@ -16,9 +18,26 @@ export default function PlacesFormPage(){
     const[checkIn, setCheckIn] = useState('');
     const[checkOut, setCheckOut] = useState('');
     const[maxGuests, setMaxGuests] = useState(1);
+    const[price, setprice] = useState(100);
+    const[redirect, setRedirect] = useState(false);
 
+    useEffect(()=>{
+        if(!id) return;
+        axios.get('/places/'+id).then(({data})=>{
+            setTitle(data.title);
+            setAddress(data.address);
+            setAddedPhotos(data.photos);
+            setDescription(data.description);
+            setPerks(data.perks);
+            setExtraInfo(data.extraInfo);
+            setCheckIn(data.checkIn);
+            setCheckOut(data.checkOut);
+            setMaxGuests(data.maxGuests);
+            setprice(data.price);
+        });
+    },[id]);
 
-    async function addNewPlace(ev){
+    async function savedPlace(ev){
         ev.preventDefault();
         const newPlace= {
             title,
@@ -29,17 +48,29 @@ export default function PlacesFormPage(){
             extraInfo,
             checkIn,
             checkOut,
-            maxGuests
+            maxGuests,
+            price,
+        };
+        if(id){
+            await axios.put('/places', {
+                id, ...newPlace
+            });
+            setRedirect(true);
+        }else{
+            //newplace
+            await axios.post('/places', newPlace);
+            setRedirect(true);
         }
-        await axios.post('/places', newPlace);
-        // setRedirect('/account/places');
-        setRedirectToPlacesList(true);
-        
     }
 
+    if (redirect) {
+        return <Navigate to={'/account/places'} />
+    }
+
+    
     return (
         <div>
-            <form onSubmit={addNewPlace}>  
+            <form onSubmit={savedPlace}>  
                 <h2 className="text-2xl mt-4">Title</h2>
                 <p className="text-gray-500 text-sm">Title for your place</p>
                 <input className="border rounded-2xl p-1 w-full" type="text" value={title} onChange={ev=> setTitle(ev.target.value)} placeholder="title, for example:My lovely apartment" />
@@ -69,7 +100,7 @@ export default function PlacesFormPage(){
                 <h2 className="text-2xl mt-4">Check IN & OUT times</h2>
                 <p className="text-gray-500 text-sm">Add check in and out times, remember to have some time window for cleaning the room between the guests</p>
 
-                <div className="grid sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <div>
                         <h3 className="mt-2 -mb-1">Check In Time</h3>
                         <input type="text" placeholder="14:00" value={checkIn} onChange={ev=>setCheckIn(ev.target.value)} />
@@ -82,8 +113,12 @@ export default function PlacesFormPage(){
                         <h3 className="mt-2 -mb-1"> Max number of guests</h3>
                         <input type="number" placeholder="1" value={maxGuests} onChange={ev=>setMaxGuests(ev.target.value)} />
                     </div>
+                    <div>
+                        <h3 className="mt-2 -mb-1">Price Per Night</h3>
+                        <input type="number" placeholder="1" value={price} onChange={ev=>setprice(ev.target.value)} />
+                    </div>
                 </div>
-                    <button className="p-2 w-full rounded-2xl my-4">Save</button>
+                    <button className="bg-primary text-white primary">Save</button>
             </form>
             </div>
     );
