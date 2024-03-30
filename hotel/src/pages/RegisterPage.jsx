@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -6,16 +6,21 @@ export default function RegisterPage(){
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [redirect, setRedirect] = useState(false);
     async function registeruser(ev){
         ev.preventDefault();
         
         try{
             axios.post('/register', {name, email, password});
+            setRedirect(true);
             alert('User registered successfully');
         } catch(e){
             alert('Error registering user');  
         }
-       
+        }
+
+        if(redirect){
+            return <Navigate to={'/login'} />
         }
     return  (
         <div className="flex flex-col text-center w-[30rem] border border-gray-400 p-4 rounded-2xl shadow-lg shadow-gray-400 mx-auto my-[5rem] text-gray-500">
