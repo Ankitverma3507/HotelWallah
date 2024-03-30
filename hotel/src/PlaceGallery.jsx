@@ -42,7 +42,7 @@ export default function PlaceGallery({place}) {
           )}
           {/* <div className="overflow-hidden"> */}
             {place.photos?.[2] && (
-              <Image onClick={() => setShowAllPhotos(true)} className=" cursor-pointer object-cover relative top-2 " src={place.photos[2]} alt=""/>
+              <Image onClick={() => setShowAllPhotos(true)} className=" cursor-pointer object-cover relative top-2  w-full h-full" src={place.photos[2]} alt=""/>
             )}
           {/* </div> */}
         </div>
