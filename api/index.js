@@ -24,6 +24,7 @@ app.use(cors({
     credentials: true
 }));
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 
 function getUserDataFromReq(req){
@@ -221,3 +222,5 @@ app.get('/bookings', async (req,res)=>{
     res.json( await booking.find({user:userData.id}).populate('place') );
 });
 app.listen(4000); 
+
+module.exports = app;
