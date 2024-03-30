@@ -1,4 +1,4 @@
 { "version": 2, 
-"builds": [{"src": "index.html", "use": "@now/static-builder", "config": {"zeroConfig": true}}],
-"routes": [{"src": "/(.*)", "dest": "/index.html"}]
+"builds": [{"src": "./api/index.js", "use": "@now/static-builder", "config": {"zeroConfig": true}}],
+"routes": [{"src": "/(.*)", "dest": "/"}]
 }
