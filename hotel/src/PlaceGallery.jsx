@@ -5,10 +5,13 @@ export default function PlaceGallery({place}) {
 
   const [showAllPhotos,setShowAllPhotos] = useState(false);
 
-  if (showAllPhotos) {
-    return (
-      <div className="absolute inset-0 bg-black text-white min-h-screen">
-        <div className="bg-black bg p-8 grid gap-4">
+  
+
+  return (
+    <div className="relative">
+      {showAllPhotos &&
+      <div className="fixed top-0 left-0 inset-0 z-50 bg-gray-400 backdrop-opacity-20 min-h-screen w-screen">
+        <div className="p-8 grid gap-4">
           <div>
             <h2 className="text-3xl mr-48">Photos of {place.title}</h2>
             <button onClick={() => setShowAllPhotos(false)} className="fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow shadow-black bg-white text-black">
@@ -18,18 +21,15 @@ export default function PlaceGallery({place}) {
               Close photos
             </button>
           </div>
+          <div className="!grid !grid-cols-3 ">
           {place?.photos?.length > 0 && place.photos.map(photo => (
-            <div className="!grid !grid-cols-3 ">
               <Image className ="h-[20rem] w-[50rem]" src={photo} alt=""/>
-            </div>
-          ))}
+              ))}
+              </div>
         </div>
       </div>
-    );
-  }
-
-  return (
-    <div className="relative">
+}
+  
       <div className="grid gap-2  grid-cols-[2fr_1fr] rounded-3xl overflow-hidden max-h-[27rem]">
         <div className="overflow-hidden">
           {place.photos?.[0] && (
