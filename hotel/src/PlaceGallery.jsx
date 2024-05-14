@@ -10,7 +10,7 @@ export default function PlaceGallery({place}) {
   return (
     <div className="relative">
       {showAllPhotos &&
-      <div className="fixed top-0 left-0 inset-0 z-50 bg-gray-400 backdrop-opacity-20 min-h-screen w-screen">
+      <div className="fixed top-0 left-0 inset-0 z-50 bg-gray-300 backdrop-opacity-20 min-h-screen w-screen">
         <div className="p-8 grid gap-4">
           <div>
             <h2 className="text-3xl mr-48">Photos of {place.title}</h2>
@@ -21,9 +21,9 @@ export default function PlaceGallery({place}) {
               Close photos
             </button>
           </div>
-          <div className="!grid !grid-cols-3 ">
+          <div className="!grid !grid-cols-3 gap-3">
           {place?.photos?.length > 0 && place.photos.map(photo => (
-              <Image className ="h-[20rem] w-[50rem]" src={photo} alt=""/>
+              <Image className ="h-[20rem] w-[50rem] rounded-lg" src={photo} alt=""/>
               ))}
               </div>
         </div>
